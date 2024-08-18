@@ -1,0 +1,165 @@
+                   //Binary Tree
+
+Ans 1.
+
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int x) { val = x; }
+}
+
+public class SpiralLevelOrderTraversal {
+
+    public List<List<Integer>> spiralLevelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) return result;
+
+        Deque<TreeNode> currentLevel = new LinkedList<>();
+        Deque<TreeNode> nextLevel = new LinkedList<>();
+        boolean leftToRight = true;
+
+        currentLevel.add(root);
+
+        while (!currentLevel.isEmpty()) {
+            List<Integer> levelValues = new ArrayList<>();
+            while (!currentLevel.isEmpty()) {
+                TreeNode node = currentLevel.poll();
+                levelValues.add(node.val);
+                if (node.left != null) nextLevel.add(node.left);
+                if (node.right != null) nextLevel.add(node.right);
+            }
+            result.add(levelValues);
+            leftToRight = !leftToRight;
+
+            Deque<TreeNode> temp = currentLevel;
+            currentLevel = nextLevel;
+            nextLevel = temp;
+        }
+
+        return result;
+    }
+}
+
+
+Ans 2.
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class CompleteBinaryTree {
+
+    public boolean isCompleteTree(TreeNode root) {
+        if (root == null) return true;
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        boolean end = false;
+
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (node == null) {
+                end = true;
+            } else {
+                if (end) return false;
+                queue.add(node.left);
+                queue.add(node.right);
+            }
+        }
+
+        return true;
+    }
+}
+
+
+
+Ans 3.
+
+import java.util.*;
+
+public class ReverseLevelOrderTraversal {
+
+    public List<List<Integer>> reverseLevelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) return result;
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        Stack<List<Integer>> stack = new Stack<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            List<Integer> levelValues = new ArrayList<>();
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                levelValues.add(node.val);
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+            }
+            stack.push(levelValues);
+        }
+
+        while (!stack.isEmpty()) {
+            result.add(stack.pop());
+        }
+
+        return result;
+    }
+}
+
+
+
+Ans 4.
+
+import java.util.*;
+
+public class LeftView {
+
+    public List<Integer> leftView(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) return result;
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                if (i == 0) result.add(node.val);
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+            }
+        }
+
+        return result;
+    }
+}
+
+
+
+Ans 5.
+
+public class MirrorBinaryTree {
+
+    public void mirror(TreeNode root) {
+        if (root == null) return;
+
+        TreeNode temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+
+        mirror(root.left);
+        mirror(root.right);
+    }
+
+    public void preOrder(TreeNode root) {
+        if (root == null) return;
+        System.out.print(root.val + " ");
+        preOrder(root.left);
+        preOrder(root.right);
+    }
+}
+
+
